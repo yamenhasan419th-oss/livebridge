@@ -56,7 +56,7 @@ object LockStateManager {
             keyguardManager = appContext.getSystemService()
             mainHandler = Handler(Looper.getMainLooper())
             updateLockState()
-            Log.i(TAG, "Initialized with lock state: locked=$isLocked")
+            Log.i(TAG, "Initialized with lock state: locked=\$isLocked")
         }
     }
 
