@@ -58,6 +58,11 @@ class LiveUpdateNotificationListenerService : NotificationListenerService() {
     override fun onCreate() {
         super.onCreate()
 
+        // Initialize lock state manager on service creation
+        LockStateManager.init(applicationContext)
+        LockStateManager.register()
+        Log.i(TAG, "Initialized lock state tracking")
+
         if (!prefs.getConverterEnabled()) {
             LiveUpdateNotifier.clearRuntimeState()
             NotificationManagerCompat.from(applicationContext).cancelAll()
@@ -149,6 +154,11 @@ class LiveUpdateNotificationListenerService : NotificationListenerService() {
         mainHandler.removeCallbacksAndMessages(null)
         rebindScheduled = false
         snapshotSyncScheduled = false
+        
+        // Cleanup lock state manager on service destroy
+        LockStateManager.unregister()
+        Log.i(TAG, "Unregistered lock state tracking")
+        
         super.onDestroy()
     }
 
